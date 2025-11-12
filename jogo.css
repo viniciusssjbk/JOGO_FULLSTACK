@@ -29,7 +29,7 @@ body {
   align-items: center; /* ALINHA TODOS OS ITENS VERTICALMENTE (MENU E TÍTULO) */
     /* Garante que o H1 esteja no centro absoluto do container */
   justify-content: center; 
-  margin-bottom: 20px;
+  margin-bottom: -30px;
   position: relative; /* CRÍTICO: Define a base para o posicionamento absoluto do menu */
   margin-top: -10px;
   }

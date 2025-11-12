@@ -54,7 +54,7 @@ function imagem3(url, x, y) {
 }
 
 // Chamando a função para cada imagem com sua posição
-var esteira = imagem3('imagens/caixa_esteira.png', 115, 402);
+var esteira = imagem3('imagens/caixa_esteira.png', 112, 402);
 
 
 
