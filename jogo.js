@@ -18,39 +18,34 @@ var esteira = {
   }
 };
 
-/*------- ITENS NA ESTEIRA -------*/
-class Item {
-  constructor(x, y, imagem) {
-    this.x = x;
-    this.y = y;
-    this.imagem = new Image();
-    this.imagem.src = imagem;
-    this.velocidadeX = 2; // movimento horizontal (direita)
-    this.velocidadeY = -1; // movimento vertical (subindo em diagonal)
-    this.angulo = 0;
-    this.ativo = true;
-  }
+/*------- ITEM -------*/
+function Item(x, y, imagem) {
+  var item = {};
+  item.x = x;
+  item.y = y;
+  item.imagem = new Image();
+  item.imagem.src = imagem;
+  item.velocidadeX = 0.5;
+  item.velocidadeY = -0.27;
+  item.ativo = true;
 
-  mover() {
-    // movimenta o item em diagonal
-    this.x += this.velocidadeX;
-    this.y += this.velocidadeY;
-    this.angulo += 0.1; // rotação leve
-
-    // desativa quando sai da tela
-    if (this.x > 600 || this.y < -50) {
-      this.ativo = false;
+  item.mover = function () {
+    item.x += item.velocidadeX;
+    item.y += item.velocidadeY;
+    if (item.x > 650) {
+      item.ativo = false;
     }
   }
 
-  desenhar(ctx) {
-    if (!this.ativo) return;
+  item.desenhar = function (ctx) {
+    if (!item.ativo) return;
     ctx.save();
-    ctx.translate(this.x + 30, this.y + 30);
-    ctx.rotate(this.angulo);
-    ctx.drawImage(this.imagem, -30, -30, 60, 60);
+    ctx.translate(item.x + 30, item.y + 30);
+    ctx.drawImage(item.imagem, -30, -30, 60, 60);
     ctx.restore();
-  }
+  };
+
+  return item;
 }
 
 var itens = [];
@@ -63,18 +58,10 @@ var imagensItens = [
 
 /*------- GERAR ITEM -------*/
 function gerarItem() {
-  let img = imagensItens[Math.floor(Math.random() * imagensItens.length)];
-  // gera o item na parte inferior da esteira, com variação leve no Y
-  let novoItem = new Item(
-    esteira.x + 80,                       // posição inicial X
-    esteira.y + 340, // posição inicial Y
-    img
-  );
-  itens.push(novoItem); // adiciona à lista
-  console.log("Item gerado:", img);
+  var img = imagensItens[Math.floor(Math.random() * imagensItens.length)];
+  var novoItem = Item(esteira.x + 80, esteira.y + 340, img);
+  itens.push(novoItem);
 }
-// ↑↑↑ IMPLEMENTAÇÃO ATUALIZADA: agora o item sobe em diagonal ↑↑↑
-
 
 /*------- PERSONAGEM -------*/
 var personagem = {
@@ -102,61 +89,91 @@ var personagem = {
     if (this.lado === "subindo") this.y -= this.velocidade;
     if (this.lado === "descendo") this.y += this.velocidade;
 
-    // limites diagonais (entre caixas e esteira)
-    let yMin, yMax;
-    if (this.x < 150) {
-      yMin = 330;
-      yMax = 440;
-    } else if (this.x < 250) {
-      yMin = 315;
-      yMax = 425;
-    } else if (this.x < 360) {
-      yMin = 265;
-      yMax = 375;
-    } else if (this.x < 490) {
-      yMin = 220;
-      yMax = 310;
-    } else {
-      yMin = 220;
-      yMax = 225;
-    }
+    var yMin, yMax;
+    /*Antes da caixa 1 */
+   if (this.x < 120) { 
+  yMin = 340; yMax = 440; // início da esteira, mais baixo
+}
+/* entre caixa 1 e 2 */
+else if (this.x < 180) { 
+  yMin = 330; yMax = 420;
+}
+else if (this.x < 230) { 
+  yMin = 315; yMax = 400;
+}
+/* entre caixa 2 e 3 */
+else if (this.x < 280) { 
+  yMin = 290; yMax = 370;
+}
+else if (this.x < 320) { 
+  yMin = 275; yMax = 355;
+}
+/* entre caixa 3 e 4 */
+else if (this.x < 360) { 
+  yMin = 265; yMax = 340;
+}
+else if (this.x < 420) { 
+  yMin = 250; yMax = 320;
+}
+else if (this.x < 460) { 
+  yMin = 235; yMax = 300;
+}
+/* depois da caixa 4 */
+else if (this.x < 520) { 
+  yMin = 225; yMax = 285;
+}
+else { 
+  yMin = 220; yMax = 225; // final da diagonal, bem no alto
+}
 
-    this.x = Math.max(100, Math.min(this.x, 570));
-    this.y = Math.max(yMin, Math.min(this.y, yMax));
-
-    console.log(`X: ${this.x}, Y: ${this.y}`);
+    if (this.x < 100) this.x = 100;
+    if (this.x > 570) this.x = 570;
+    if (this.y < yMin) this.y = yMin;
+    if (this.y > yMax) this.y = yMax;
   }
 };
 
 /*------- TECLAS -------*/
 var teclas = {};
-document.addEventListener("keydown", e => teclas[e.key] = true);
-document.addEventListener("keyup", e => teclas[e.key] = false);
+document.addEventListener("keydown", function (e) { teclas[e.key] = true; });
+document.addEventListener("keyup", function (e) { teclas[e.key] = false; });
 
 /*------- FUNDO -------*/
-function desenhar_fundo(personagem) {
-  desenharImagemProxima('imagens/4.png', 50, 250, 200, 240, personagem);
-  desenharImagemProxima('imagens/1.png', 155, 222, 200, 240, personagem);
-  desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem);
-  desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem);
-  desenharImagem('imagens/score.png', 755, -5, 100, 80);
-}
+var fundo = {
+  desenhar: function (personagem) {
+    this.desenharImagemProxima('imagens/4.png', 50, 250, 200, 240,personagem, "1");
+    this.desenharImagemProxima('imagens/1.png', 155, 222, 200, 240,personagem,  "2");
+    this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240,personagem,  "3");
+    this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240,personagem,  "4");
+    this.desenharImagem('imagens/score.png', 755, -5, 100, 80,personagem);
+  },
 
-function desenharImagemProxima(src, x, y, w, h, personagem) {
-  var img = new Image();
-  img.src = src;
-  let dx = personagem.x - x;
-  let dy = personagem.y - y;
-  let distancia = Math.sqrt(dx * dx + dy * dy);
-  let fator = distancia < 150 ? 1.2 : 1;
-  ctx.drawImage(img, x - (w * (fator - 1) / 2), y - (h * (fator - 1) / 2), w * fator, h * fator);
-}
+  desenharImagemProxima: function (src, x, y, largura, altura,personagem, id) {
+    var img = new Image();
+    img.src = src;
+    //CAIXA 1
+    if(personagem.x>=50 && personagem.x<=120 && personagem.y>=330 && personagem.y<=340 && id == "1")
+      {largura+=20,altura+=20}
+    //CAIXA 2
+    if(personagem.x>=115 && personagem.x<=280 && personagem.y>=315 && personagem.y<=325 && id == "2"){
+      largura+=20,altura+=20}
+    //CAIXA 3
+    if(personagem.x>=270 && personagem.x<=390 && personagem.y>=265 && personagem.y<=275 && id == "3")
+      {largura+=20,altura+=20}
+    //CAIXA 4
+    if(personagem.x>=370 && personagem.x<=540 && personagem.y>=220 && personagem.y<=230 && id == "4")
+      {largura+=20,altura+=20}
+    ctx.drawImage(img, x, y, largura, altura);
 
-function desenharImagem(src, x, y, w, h) {
-  var img = new Image();
-  img.src = src;
-  ctx.drawImage(img, x, y, w, h);
-}
+
+  },
+
+  desenharImagem: function (src, x, y, largura, altura) {
+    var img = new Image();
+    img.src = src;
+    ctx.drawImage(img, x, y, largura, altura);
+  }
+};
 
 /*------- LOOP PRINCIPAL -------*/
 var i = 0;
@@ -167,26 +184,34 @@ var intervaloItem = 120;
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // chão (quadrado verde)
+ctx.fillStyle = "rgba(30, 255, 0, 0.685)";
+ctx.beginPath();
+ctx.arc(445, 425, 40, 0*Math.PI,2*Math.PI); // x=435, y=415, raio=35
+ctx.closePath();
+ctx.fill();
 
-  // fundo e esteira
   esteira.desenhar(ctx, i);
-  desenhar_fundo(personagem);
+  fundo.desenhar(personagem);
 
-  // desenha e move itens
-  for (let item of itens) {
-    item.mover();
-    item.desenhar(ctx);
+  var j;
+  for (j = 0; j < itens.length; j++) {
+    itens[j].mover();
+    itens[j].desenhar(ctx);
   }
-  itens = itens.filter(i => i.ativo);
 
-  // gera novo item a cada intervalo
+  var novos = [];
+  for (j = 0; j < itens.length; j++) {
+    if (itens[j].ativo) novos.push(itens[j]);
+  }
+  itens = novos;
+
   tempoItem++;
   if (tempoItem >= intervaloItem) {
     gerarItem();
     tempoItem = 0;
   }
 
-  // movimentação personagem
   personagem.andando = false;
   if (teclas["ArrowLeft"]) { personagem.lado = "esquerda"; personagem.andando = true; }
   if (teclas["ArrowRight"]) { personagem.lado = "direita"; personagem.andando = true; }
@@ -196,7 +221,6 @@ function loop() {
   personagem.mover();
   personagem.gerar(ctx);
 
-  // alterna imagens da esteira
   tempoTroca++;
   if (tempoTroca >= intervaloTroca) {
     i = (i + 1) % 2;
