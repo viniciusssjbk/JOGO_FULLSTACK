@@ -28,6 +28,7 @@ function Item(x, y, imagem) {
   item.velocidadeX = 0.5;
   item.velocidadeY = -0.27;
   item.ativo = true;
+  item.caixaDestino = null;
 
   item.mover = function () {
     item.x += item.velocidadeX;
@@ -56,10 +57,25 @@ var imagensItens = [
   'imagens/item7.png', 'imagens/item8.png'
 ];
 
+var mapaCaixas = {
+  1: ['imagens/item1.png', 'imagens/item2.png'],
+  2: ['imagens/item3.png', 'imagens/item4.png'],
+  3: ['imagens/item5.png', 'imagens/item6.png'],
+  4: ['imagens/item7.png', 'imagens/item8.png']
+};
+
 /*------- GERAR ITEM -------*/
 function gerarItem() {
   var img = imagensItens[Math.floor(Math.random() * imagensItens.length)];
   var novoItem = Item(esteira.x + 80, esteira.y + 340, img);
+
+  for (var caixaId in mapaCaixas) {
+    if (mapaCaixas[caixaId].indexOf(img) !== -1) {
+      novoItem.caixaDestino = caixaId;
+      break;
+    }
+  }
+
   itens.push(novoItem);
 }
 
@@ -90,41 +106,16 @@ var personagem = {
     if (this.lado === "descendo") this.y += this.velocidade;
 
     var yMin, yMax;
-    /*Antes da caixa 1 */
-   if (this.x < 120) { 
-  yMin = 340; yMax = 440; // início da esteira, mais baixo
-}
-/* entre caixa 1 e 2 */
-else if (this.x < 180) { 
-  yMin = 330; yMax = 420;
-}
-else if (this.x < 230) { 
-  yMin = 315; yMax = 400;
-}
-/* entre caixa 2 e 3 */
-else if (this.x < 280) { 
-  yMin = 290; yMax = 370;
-}
-else if (this.x < 320) { 
-  yMin = 275; yMax = 355;
-}
-/* entre caixa 3 e 4 */
-else if (this.x < 360) { 
-  yMin = 265; yMax = 340;
-}
-else if (this.x < 420) { 
-  yMin = 250; yMax = 320;
-}
-else if (this.x < 460) { 
-  yMin = 235; yMax = 300;
-}
-/* depois da caixa 4 */
-else if (this.x < 520) { 
-  yMin = 225; yMax = 285;
-}
-else { 
-  yMin = 220; yMax = 225; // final da diagonal, bem no alto
-}
+    if (this.x < 120) { yMin = 340; yMax = 440; }
+    else if (this.x < 180) { yMin = 330; yMax = 420; }
+    else if (this.x < 230) { yMin = 315; yMax = 400; }
+    else if (this.x < 280) { yMin = 290; yMax = 370; }
+    else if (this.x < 320) { yMin = 275; yMax = 355; }
+    else if (this.x < 360) { yMin = 265; yMax = 340; }
+    else if (this.x < 420) { yMin = 250; yMax = 320; }
+    else if (this.x < 460) { yMin = 235; yMax = 300; }
+    else if (this.x < 520) { yMin = 225; yMax = 285; }
+    else { yMin = 220; yMax = 225; }
 
     if (this.x < 100) this.x = 100;
     if (this.x > 570) this.x = 570;
@@ -141,31 +132,21 @@ document.addEventListener("keyup", function (e) { teclas[e.key] = false; });
 /*------- FUNDO -------*/
 var fundo = {
   desenhar: function (personagem) {
-    this.desenharImagemProxima('imagens/4.png', 50, 250, 200, 240,personagem, "1");
-    this.desenharImagemProxima('imagens/1.png', 155, 222, 200, 240,personagem,  "2");
-    this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240,personagem,  "3");
-    this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240,personagem,  "4");
-    this.desenharImagem('imagens/score.png', 755, -5, 100, 80,personagem);
+    this.desenharImagemProxima('imagens/4.png', 50, 250, 200, 240, personagem, "1");
+    this.desenharImagemProxima('imagens/1.png', 155, 222, 200, 240, personagem, "2");
+    this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem, "3");
+    this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
+    this.desenharImagem('imagens/score.png', 755, -5, 100, 80, personagem);
   },
 
-  desenharImagemProxima: function (src, x, y, largura, altura,personagem, id) {
+  desenharImagemProxima: function (src, x, y, largura, altura, personagem, id) {
     var img = new Image();
     img.src = src;
-    //CAIXA 1
-    if(personagem.x>=50 && personagem.x<=120 && personagem.y>=330 && personagem.y<=340 && id == "1")
-      {largura+=20,altura+=20}
-    //CAIXA 2
-    if(personagem.x>=115 && personagem.x<=280 && personagem.y>=315 && personagem.y<=325 && id == "2"){
-      largura+=20,altura+=20}
-    //CAIXA 3
-    if(personagem.x>=270 && personagem.x<=390 && personagem.y>=265 && personagem.y<=275 && id == "3")
-      {largura+=20,altura+=20}
-    //CAIXA 4
-    if(personagem.x>=370 && personagem.x<=540 && personagem.y>=220 && personagem.y<=230 && id == "4")
-      {largura+=20,altura+=20}
+    if (personagem.x >= 50 && personagem.x <= 120 && personagem.y >= 330 && personagem.y <= 340 && id == "1") { largura += 20; altura += 20; }
+    if (personagem.x >= 115 && personagem.x <= 280 && personagem.y >= 315 && personagem.y <= 325 && id == "2") { largura += 20; altura += 20; }
+    if (personagem.x >= 270 && personagem.x <= 390 && personagem.y >= 265 && personagem.y <= 275 && id == "3") { largura += 20; altura += 20; }
+    if (personagem.x >= 370 && personagem.x <= 540 && personagem.y >= 220 && personagem.y <= 230 && id == "4") { largura += 20; altura += 20; }
     ctx.drawImage(img, x, y, largura, altura);
-
-
   },
 
   desenharImagem: function (src, x, y, largura, altura) {
@@ -184,24 +165,34 @@ var intervaloItem = 120;
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // chão (quadrado verde)
-ctx.fillStyle = "rgba(30, 255, 0, 0.685)";
-ctx.beginPath();
-ctx.arc(445, 425, 40, 0*Math.PI,2*Math.PI); // x=435, y=415, raio=35
-ctx.closePath();
-ctx.fill();
+  ctx.fillStyle = "rgba(30, 255, 0, 0.685)";
+  ctx.beginPath();
+  ctx.arc(445, 425, 40, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fill();
 
   esteira.desenhar(ctx, i);
   fundo.desenhar(personagem);
 
-  var j;
-  for (j = 0; j < itens.length; j++) {
+  for (var j = 0; j < itens.length; j++) {
     itens[j].mover();
     itens[j].desenhar(ctx);
+
+    if (itens[j].caixaDestino) {
+      ctx.font = "14px Arial";
+
+      if (itens[j].caixaDestino == 1) { ctx.fillStyle = "red"; ctx.fillText("Caixa vermelha", itens[j].x, itens[j].y - 5); }
+      if (itens[j].caixaDestino == 2) { ctx.fillStyle = "blue"; ctx.fillText("Caixa azul", itens[j].x, itens[j].y - 5); }
+      if (itens[j].caixaDestino == 3) { ctx.fillStyle = "yellow"; ctx.fillText("Caixa amarela", itens[j].x, itens[j].y - 5); }
+      if (itens[j].caixaDestino == 4) { ctx.fillStyle = "green"; ctx.fillText("Caixa verde", itens[j].x, itens[j].y - 5); }
+    }
+  }
+  if(teclas[" "]){
+    personagem.space = true;
   }
 
   var novos = [];
-  for (j = 0; j < itens.length; j++) {
+  for (var j = 0; j < itens.length; j++) {
     if (itens[j].ativo) novos.push(itens[j]);
   }
   itens = novos;
