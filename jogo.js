@@ -86,15 +86,19 @@ var personagem = {
   y: 280,
   velocidade: 5,
   andando: false,
+  segurando: false,
   lado: "direita",
   diretorio: {
-    "esquerda": ['imagens/personagem/parado_esquerda.png', 'imagens/personagem/andando_esquerda.png'],
-    "direita": ['imagens/personagem/parado_direita.png', 'imagens/personagem/andando_direita.png'],
-    "subindo": ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
-    "descendo": ['imagens/personagem/frente.png', 'imagens/personagem/frente.png']
+    "esquerda": ['imagens/personagem/parado_esquerda.png', 'imagens/personagem/andando_esquerda.png' , 'imagens/personagem/segurando_parado_esquerda.png', 'imagens/personagem/segurando_andando_esquerda.png'],
+    "direita": ['imagens/personagem/parado_direita.png', 'imagens/personagem/andando_direita.png', 'imagens/personagem/segurando_parado_direita.png', 'imagens/personagem/segurando_andando_direita.png'],
+    "subindo": ['imagens/personagem/costas.png', 'imagens/personagem/costas.png', 'imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    "descendo": ['imagens/personagem/frente.png', 'imagens/personagem/frente.png' , 'imagens/personagem/frente.png', 'imagens/personagem/frente.png']
   },
   gerar: function (ctx) {
-    this.img.src = this.diretorio[this.lado][this.andando ? 1 : 0];
+    if (!this.segurando) {
+    this.img.src = this.diretorio[this.lado][this.andando ? 1 : 0];}
+    else {
+    this.img.src = this.diretorio[this.lado][this.andando ? 3 : 2];}
     ctx.drawImage(this.img, this.x, this.y, 100, 100);
   },
   mover: function () {
@@ -137,7 +141,6 @@ var fundo = {
     this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem, "3");
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
     this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
-    this.desenharImagem('imagens/tempo.png', 600, -5, 100, 80);
     
   },
 
@@ -189,10 +192,6 @@ function loop() {
       if (itens[j].caixaDestino == 4) { ctx.fillStyle = "lime";   ctx.beginPath();ctx.arc(itens[j].x, itens[j].y - 5, 5, 0, 2 * Math.PI); ctx.closePath();ctx.fill();}
     }
   }
-  if(teclas[" "]){
-    personagem.space = true;
-  }
-
   var novos = [];
   for (var j = 0; j < itens.length; j++) {
     if (itens[j].ativo) novos.push(itens[j]);
@@ -204,13 +203,13 @@ function loop() {
     gerarItem();
     tempoItem = 0;
   }
-
+  var click= 0
   personagem.andando = false;
   if (teclas["ArrowLeft"]) { personagem.lado = "esquerda"; personagem.andando = true; }
   if (teclas["ArrowRight"]) { personagem.lado = "direita"; personagem.andando = true; }
   if (teclas["ArrowUp"]) { personagem.lado = "subindo"; personagem.andando = true; }
   if (teclas["ArrowDown"]) { personagem.lado = "descendo"; personagem.andando = true; }
-
+  if(teclas[" "] && personagem.segurando == false) { personagem.segurando = true; itens[0].ativo = false; }
   personagem.mover();
   personagem.gerar(ctx);
 
