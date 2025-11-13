@@ -67,7 +67,7 @@ var mapaCaixas = {
 /*------- GERAR ITEM -------*/
 function gerarItem() {
   var img = imagensItens[Math.floor(Math.random() * imagensItens.length)];
-  var novoItem = Item(esteira.x + 80, esteira.y + 340, img);
+  var novoItem = Item(esteira.x + 100, esteira.y + 330, img);
 
   for (var caixaId in mapaCaixas) {
     if (mapaCaixas[caixaId].indexOf(img) !== -1) {
@@ -136,7 +136,9 @@ var fundo = {
     this.desenharImagemProxima('imagens/1.png', 155, 222, 200, 240, personagem, "2");
     this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem, "3");
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
-    this.desenharImagem('imagens/score.png', 755, -5, 100, 80, personagem);
+    this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
+    this.desenharImagem('imagens/tempo.png', 600, -5, 100, 80);
+    
   },
 
   desenharImagemProxima: function (src, x, y, largura, altura, personagem, id) {
@@ -161,11 +163,11 @@ var i = 0;
 var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
-var intervaloItem = 120;
+var intervaloItem = 250;
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "rgba(30, 255, 0, 0.685)";
+  ctx.fillStyle = "rgba(21, 21, 27, 0.52)";
   ctx.beginPath();
   ctx.arc(445, 425, 40, 0, 2 * Math.PI);
   ctx.closePath();
@@ -181,10 +183,10 @@ function loop() {
     if (itens[j].caixaDestino) {
       ctx.font = "14px Arial";
 
-      if (itens[j].caixaDestino == 1) { ctx.fillStyle = "red"; ctx.fillText("Caixa vermelha", itens[j].x, itens[j].y - 5); }
-      if (itens[j].caixaDestino == 2) { ctx.fillStyle = "blue"; ctx.fillText("Caixa azul", itens[j].x, itens[j].y - 5); }
-      if (itens[j].caixaDestino == 3) { ctx.fillStyle = "yellow"; ctx.fillText("Caixa amarela", itens[j].x, itens[j].y - 5); }
-      if (itens[j].caixaDestino == 4) { ctx.fillStyle = "green"; ctx.fillText("Caixa verde", itens[j].x, itens[j].y - 5); }
+      if (itens[j].caixaDestino == 1) { ctx.fillStyle = "red";   ctx.beginPath();ctx.arc(itens[j].x, itens[j].y - 5, 5, 0, 2 * Math.PI); ctx.closePath();ctx.fill();}
+      if (itens[j].caixaDestino == 2) { ctx.fillStyle = "blue";   ctx.beginPath();ctx.arc(itens[j].x, itens[j].y - 5, 5, 0, 2 * Math.PI);ctx.closePath();ctx.fill();}
+      if (itens[j].caixaDestino == 3) { ctx.fillStyle = "yellow";   ctx.beginPath();ctx.arc(itens[j].x, itens[j].y - 5, 5, 0, 2 * Math.PI);ctx.closePath();ctx.fill();}
+      if (itens[j].caixaDestino == 4) { ctx.fillStyle = "lime";   ctx.beginPath();ctx.arc(itens[j].x, itens[j].y - 5, 5, 0, 2 * Math.PI); ctx.closePath();ctx.fill();}
     }
   }
   if(teclas[" "]){
