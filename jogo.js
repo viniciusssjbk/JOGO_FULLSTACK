@@ -1,6 +1,92 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
+/* ---------------- CANVAS DO TUTORIAL ---------------- */
+var tutorial = document.getElementById("tutorialCanvas");
+var tctx = tutorial.getContext("2d");
+
+/* ---------------- IMAGENS DO TUTORIAL ---------------- */
+var imgAndando = new Image();
+var imgAndando2 = new Image();
+var imgsegunrado = new Image();
+imgAndando.src = "imagens/personagem/andando_direita.png";
+imgAndando2.src = "imagens/personagem/costas.png";
+imgsegunrado.src = "imagens/personagem/segurando_parado_direita4.png";
+
+var imgItem1 = new Image();
+var imgItem2 = new Image();
+var imgItem3 = new Image();
+var imgItem4 = new Image();
+var imgItem5 = new Image();
+var imgItem6 = new Image();
+var imgItem7 = new Image();
+var imgItem8 = new Image();
+
+   imgItem1.src="imagens/item1.png"
+   imgItem2.src="imagens/item2.png"
+   imgItem3.src="imagens/item3.png"
+   imgItem4.src="imagens/item4.png"
+   imgItem5.src="imagens/item5.png"
+   imgItem6.src="imagens/item6.png"
+   imgItem7.src="imagens/item7.png"
+   imgItem8.src="imagens/item8.png"
+
+/* ---------------- ANIMAÇÃO BÁSICA ---------------- */
+var frame = 0;
+
+function desenharTutorial() {
+    tctx.clearRect(0, 0, tutorial.width, tutorial.height);
+
+    tctx.font = "18px monospace";
+    tctx.fillStyle = "black";
+
+    // --- TÍTULO ---
+    tctx.fillText("TUTORIAL", 50, 30);
+
+    // --- ANDAR PARA OS LADOS ---
+    tctx.fillText("Mover:", 10, 70);
+    tctx.fillText("←  →", 60, 95);
+    tctx.drawImage(imgAndando, 60 + Math.sin(frame * 0.1) * 10, 110, 50, 50);
+    tctx.fillText("↑  ↓", 60, 180);
+    tctx.drawImage(imgAndando2, 60, Math.sin(frame * 0.1) * 5 + 190, 50, 50);
+
+    // --- PEGAR ITEM ---
+    tctx.fillText('Precione Espaço', 10, 290); 
+    tctx.fillText('paga pegar itens', 10, 310); 
+    tctx.drawImage(imgsegunrado, 70, 320, 50, 50);
+   
+
+    // --- RELAÇÃO ITENS/CAIXAS ---
+    tctx.fillText("Caixa certa:", 10, 400);
+    tctx.fillStyle = "red";
+    tctx.fillText("Vermelha:", 10, 430);
+ 
+    tctx.drawImage(imgItem1,100, 410, 30,30);
+    tctx.drawImage(imgItem2,130, 410, 30,30);
+
+    tctx.fillStyle = "blue";
+    tctx.fillText("Azul:", 10, 460);
+
+    tctx.drawImage(imgItem3,100, 440, 30,30);
+    tctx.drawImage(imgItem4,130, 440, 30,30);
+
+    tctx.fillStyle = "yellow";
+    tctx.fillText("Amarelo:", 10, 490);
+
+     tctx.drawImage(imgItem5,100, 470, 30,30);
+    tctx.drawImage(imgItem6,130, 470, 30,30);
+
+    tctx.fillStyle = "green";
+    tctx.fillText("Verde:", 10, 520);
+
+    tctx.drawImage(imgItem7,100, 500, 30,30);
+    tctx.drawImage(imgItem8,130, 500, 30,30);
+
+    frame++;
+}
+
+
+
 /*------- ESTEIRA -------*/
 var esteira = {
   imagens: ['imagens/esteira1.png', 'imagens/esteira2.png'],
@@ -37,7 +123,7 @@ function Item(x, y, imagem,id) {
     item.y += item.velocidadeY;
     if (item.x > 650) {
       item.ativo = false;
-      ponto = -80
+      ponto = -50
     }
     return ponto;
   }
@@ -235,20 +321,20 @@ function pertocaixa(x,y,item){
     if (x >= 50 && x <= 120 && y >= 330 && y <= 340) {
       perto = true 
       if(item==1){
-      pontos = 80
+      pontos = 100
     }
       else{
-      pontos = -80
+      pontos = -50
     }
     
   }
     else if (x >= 115 && x <= 280 && y >= 315 && y <= 325) {
       perto = true
          if(item==2){
-      pontos = 80
+      pontos = 100
     }
       else{
-      pontos = -80
+      pontos = -50
 
     }
       }
@@ -256,19 +342,19 @@ function pertocaixa(x,y,item){
     else if (x >= 270 && x <= 390 && y >= 265 && y <= 275) { 
       perto = true
       if(item==3){
-      pontos = 80
+      pontos = 100
     }
       else{
-      pontos = -80
+      pontos = -50
     }
     }
     else if (x >= 370 && x <= 540 && y >= 220 && y <= 230) { 
       perto = true
        if(item==4){
-      pontos = 80
+      pontos = 100
     }
       else{
-        pontos = -80
+        pontos = -50
       }
     }
     return[perto,pontos]
@@ -283,7 +369,7 @@ var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
 var intervaloItem = 250;
-var pontos_global = 0.25
+var pontos_global = 50
 var timer = 150;
 var timer2 = 50;
 function loop() {
@@ -363,10 +449,12 @@ function loop() {
   if(timer<=0){
     fim_game(pontos_global)
   }
+  desenharTutorial();
+
   requestAnimationFrame(loop);
 }
 function fim_game(pontos){
-  if(pontos>=800){
+  if(pontos>=1500){
     window.open("fase2.html");
 
   }else{
@@ -378,5 +466,6 @@ function fim_game(pontos){
     ctx.fillText("Recarregue a pagina para reniciar", 300, 400)
     ctx.closePath()
   }
+  
 }
 loop();

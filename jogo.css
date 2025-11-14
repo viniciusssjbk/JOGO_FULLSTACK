@@ -121,4 +121,10 @@ h1 {
 #controls, #score-board {
     margin: 10px 0;
 }
-
+#canvas{
+  display: flex;
+  justify-content: space-around;
+}
+#tutorialCanvas{
+    background-color: white;
+}
