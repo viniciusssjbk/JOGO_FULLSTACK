@@ -19,7 +19,7 @@ var esteira = {
 };
 
 /*------- ITEM -------*/
-function Item(x, y, imagem) {
+function Item(x, y, imagem ) {
   var item = {};
   item.x = x;
   item.y = y;
@@ -31,11 +31,14 @@ function Item(x, y, imagem) {
   item.caixaDestino = null;
 
   item.mover = function () {
+    var ponto = 0
     item.x += item.velocidadeX;
     item.y += item.velocidadeY;
     if (item.x > 650) {
       item.ativo = false;
+      ponto = -80
     }
+    return ponto;
   }
 
   item.desenhar = function (ctx) {
@@ -66,17 +69,23 @@ var mapaCaixas = {
 
 /*------- GERAR ITEM -------*/
 function gerarItem() {
-  var img = imagensItens[Math.floor(Math.random() * imagensItens.length)];
+  var iditem = Math.floor(Math.random() * imagensItens.length)
+  var img = imagensItens[iditem];
   var novoItem = Item(esteira.x + 100, esteira.y + 330, img);
 
   for (var caixaId in mapaCaixas) {
-    if (mapaCaixas[caixaId].indexOf(img) !== -1) {
+  var lista = mapaCaixas[caixaId];
+
+  for (var i = 0; i < lista.length; i++) {
+    if (lista[i] === img) { 
       novoItem.caixaDestino = caixaId;
       break;
     }
   }
-
+}
   itens.push(novoItem);
+  
+
 }
 
 /*------- PERSONAGEM -------*/
@@ -86,7 +95,7 @@ var personagem = {
   y: 280,
   velocidade: 5,
   andando: false,
-  segurando: false,
+  segurando: [false,0],
   lado: "direita",
   diretorio: {
     "esquerda": ['imagens/personagem/parado_esquerda.png', 'imagens/personagem/andando_esquerda.png' , 'imagens/personagem/segurando_parado_esquerda.png', 'imagens/personagem/segurando_andando_esquerda.png'],
@@ -95,7 +104,7 @@ var personagem = {
     "descendo": ['imagens/personagem/frente.png', 'imagens/personagem/frente.png' , 'imagens/personagem/frente.png', 'imagens/personagem/frente.png']
   },
   gerar: function (ctx) {
-    if (!this.segurando) {
+    if (!this.segurando[0]) {
     this.img.src = this.diretorio[this.lado][this.andando ? 1 : 0];}
     else {
     this.img.src = this.diretorio[this.lado][this.andando ? 3 : 2];}
@@ -135,12 +144,14 @@ document.addEventListener("keyup", function (e) { teclas[e.key] = false; });
 
 /*------- FUNDO -------*/
 var fundo = {
-  desenhar: function (personagem) {
+  desenhar: function (personagem,pontos,timer) {
     this.desenharImagemProxima('imagens/4.png', 50, 250, 200, 240, personagem, "1");
     this.desenharImagemProxima('imagens/1.png', 155, 222, 200, 240, personagem, "2");
     this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem, "3");
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
     this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
+    this.escrever(800, 80,pontos);
+    this.escrever(200, 80,timer);
     
   },
 
@@ -158,8 +169,63 @@ var fundo = {
     var img = new Image();
     img.src = src;
     ctx.drawImage(img, x, y, largura, altura);
+  },
+  escrever: function(x,y,texto){
+    ctx.font = "20px Arial";     
+    ctx.fillStyle = "white";     
+    ctx.fillText(texto, x, y);
   }
+  
 };
+
+/*--------VERIFICA PERSONAGEM PERTO DA CAIXA ----------*/
+function pertocaixa(x,y,item){
+  var pontos = 0
+  var perto = false
+    if (x >= 50 && x <= 120 && y >= 330 && y <= 340) {
+      perto = true 
+      if(item==1){
+      pontos = 80
+    }
+      else{
+      pontos = -80
+    }
+    
+  }
+    else if (x >= 115 && x <= 280 && y >= 315 && y <= 325) {
+      perto = true
+         if(item==2){
+      pontos = 80
+    }
+      else{
+      pontos = -80
+
+    }
+      }
+      
+    else if (x >= 270 && x <= 390 && y >= 265 && y <= 275) { 
+      perto = true
+      if(item==3){
+      pontos = 80
+    }
+      else{
+      pontos = -80
+    }
+    }
+    else if (x >= 370 && x <= 540 && y >= 220 && y <= 230) { 
+      perto = true
+       if(item==4){
+      pontos = 80
+    }
+      else{
+        pontos = -80
+      }
+    }
+    return[perto,pontos]
+    
+}
+
+
 
 /*------- LOOP PRINCIPAL -------*/
 var i = 0;
@@ -167,7 +233,9 @@ var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
 var intervaloItem = 250;
-
+var pontos_global = 0
+var timer = 10;
+var timer2 = 50;
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "rgba(21, 21, 27, 0.52)";
@@ -177,10 +245,17 @@ function loop() {
   ctx.fill();
 
   esteira.desenhar(ctx, i);
-  fundo.desenhar(personagem);
+  if(timer2<=0){
+    timer--;
+    timer2 = 50;
+  }
+  else{
+    timer2--;
+  }
+  fundo.desenhar(personagem,pontos_global,timer);
 
   for (var j = 0; j < itens.length; j++) {
-    itens[j].mover();
+    pontos_global+= itens[j].mover();
     itens[j].desenhar(ctx);
 
     if (itens[j].caixaDestino) {
@@ -203,13 +278,23 @@ function loop() {
     gerarItem();
     tempoItem = 0;
   }
-  var click= 0
   personagem.andando = false;
   if (teclas["ArrowLeft"]) { personagem.lado = "esquerda"; personagem.andando = true; }
   if (teclas["ArrowRight"]) { personagem.lado = "direita"; personagem.andando = true; }
   if (teclas["ArrowUp"]) { personagem.lado = "subindo"; personagem.andando = true; }
   if (teclas["ArrowDown"]) { personagem.lado = "descendo"; personagem.andando = true; }
-  if(teclas[" "] && personagem.segurando == false) { personagem.segurando = true; itens[0].ativo = false; }
+  if(teclas[" "] && personagem.segurando[0] == false && itens.length>0 && personagem.x>=350 && personagem.x<=410 && personagem.y>=300 && personagem.y<=320) {
+     personagem.segurando[0] = true; personagem.segurando[1]=itens[0].caixaDestino;itens[0].ativo = false; }
+  else if(teclas[" "] && personagem.segurando[0] == true) {
+    var perto = pertocaixa(personagem.x,personagem.y,personagem.segurando[1])
+    if(perto[0]){
+      personagem.segurando[0] = false;
+      personagem.segurando[1] = 0;
+      pontos_global += perto[1];
+    }
+  }
+
+  
   personagem.mover();
   personagem.gerar(ctx);
 
@@ -218,8 +303,23 @@ function loop() {
     i = (i + 1) % 2;
     tempoTroca = 0;
   }
-
+  if(timer<=0){
+    fim_game(pontos_global)
+  }
   requestAnimationFrame(loop);
 }
+function fim_game(pontos){
+  if(pontos>=100){
+    window.open("fase2.html");
 
+  }else{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.beginPath()
+     ctx.font = "20px Arial";     
+    ctx.fillStyle = "white"; 
+    ctx.fillText("Você perdeu :(", 300,300)
+    ctx.fillText("Recarregue a pagina para reniciar", 300, 400)
+    ctx.closePath()
+  }
+}
 loop();
