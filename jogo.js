@@ -19,8 +19,9 @@ var esteira = {
 };
 
 /*------- ITEM -------*/
-function Item(x, y, imagem ) {
+function Item(x, y, imagem,id) {
   var item = {};
+  item.id=id;
   item.x = x;
   item.y = y;
   item.imagem = new Image();
@@ -71,7 +72,7 @@ var mapaCaixas = {
 function gerarItem() {
   var iditem = Math.floor(Math.random() * imagensItens.length)
   var img = imagensItens[iditem];
-  var novoItem = Item(esteira.x + 100, esteira.y + 330, img);
+  var novoItem = Item(esteira.x + 100, esteira.y + 330, img, iditem);
 
   for (var caixaId in mapaCaixas) {
   var lista = mapaCaixas[caixaId];
@@ -95,19 +96,66 @@ var personagem = {
   y: 280,
   velocidade: 5,
   andando: false,
-  segurando: [false,0],
+  segurando: [false,0,0],
   lado: "direita",
-  diretorio: {
-    "esquerda": ['imagens/personagem/parado_esquerda.png', 'imagens/personagem/andando_esquerda.png' , 'imagens/personagem/segurando_parado_esquerda.png', 'imagens/personagem/segurando_andando_esquerda.png'],
-    "direita": ['imagens/personagem/parado_direita.png', 'imagens/personagem/andando_direita.png', 'imagens/personagem/segurando_parado_direita.png', 'imagens/personagem/segurando_andando_direita.png'],
-    "subindo": ['imagens/personagem/costas.png', 'imagens/personagem/costas.png', 'imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
-    "descendo": ['imagens/personagem/frente.png', 'imagens/personagem/frente.png' , 'imagens/personagem/frente.png', 'imagens/personagem/frente.png']
-  },
+diretorio: {
+  "esquerda": [
+    ['imagens/personagem/parado_esquerda.png', 'imagens/personagem/andando_esquerda.png'],
+
+    ['imagens/personagem/segurando_parado_esquerda1.png', 'imagens/personagem/segurando_andando_esquerda1.png'],
+    ['imagens/personagem/segurando_parado_esquerda2.png', 'imagens/personagem/segurando_andando_esquerda2.png'],
+    ['imagens/personagem/segurando_parado_esquerda3.png', 'imagens/personagem/segurando_andando_esquerda3.png'],
+    ['imagens/personagem/segurando_parado_esquerda4.png', 'imagens/personagem/segurando_andando_esquerda4.png'],
+    ['imagens/personagem/segurando_parado_esquerda5.png', 'imagens/personagem/segurando_andando_esquerda5.png'],
+    ['imagens/personagem/segurando_parado_esquerda6.png', 'imagens/personagem/segurando_andando_esquerda6.png'],
+    ['imagens/personagem/segurando_parado_esquerda7.png', 'imagens/personagem/segurando_andando_esquerda7.png'],
+    ['imagens/personagem/segurando_parado_esquerda8.png', 'imagens/personagem/segurando_andando_esquerda8.png']
+  ],
+
+  "direita": [
+    ['imagens/personagem/parado_direita.png', 'imagens/personagem/andando_direita.png'],
+
+    ['imagens/personagem/segurando_parado_direita1.png', 'imagens/personagem/segurando_andando_direita1.png'],
+    ['imagens/personagem/segurando_parado_direita2.png', 'imagens/personagem/segurando_andando_direita2.png'],
+    ['imagens/personagem/segurando_parado_direita3.png', 'imagens/personagem/segurando_andando_direita3.png'],
+    ['imagens/personagem/segurando_parado_direita4.png', 'imagens/personagem/segurando_andando_direita4.png'],
+    ['imagens/personagem/segurando_parado_direita5.png', 'imagens/personagem/segurando_andando_direita5.png'],
+    ['imagens/personagem/segurando_parado_direita6.png', 'imagens/personagem/segurando_andando_direita6.png'],
+    ['imagens/personagem/segurando_parado_direita7.png', 'imagens/personagem/segurando_andando_direita7.png'],
+    ['imagens/personagem/segurando_parado_direita8.png', 'imagens/personagem/segurando_andando_direita8.png']
+  ],
+
+  "subindo": [
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png'],
+    ['imagens/personagem/costas.png', 'imagens/personagem/costas.png']
+  ],
+
+  "descendo": [
+    ['imagens/personagem/descendo.png', 'imagens/personagem/descendo.png'],
+
+    ['imagens/personagem/segurando_descendo1.png', 'imagens/personagem/segurando_descendo1.png'],
+    ['imagens/personagem/segurando_descendo2.png', 'imagens/personagem/segurando_descendo2.png'],
+    ['imagens/personagem/segurando_descendo3.png', 'imagens/personagem/segurando_descendo3.png'],
+    ['imagens/personagem/segurando_descendo4.png', 'imagens/personagem/segurando_descendo4.png'],
+    ['imagens/personagem/segurando_descendo5.png', 'imagens/personagem/segurando_descendo5.png'],
+    ['imagens/personagem/segurando_descendo6.png', 'imagens/personagem/segurando_descendo6.png'],
+    ['imagens/personagem/segurando_descendo7.png', 'imagens/personagem/segurando_descendo7.png'],
+    ['imagens/personagem/segurando_descendo8.png', 'imagens/personagem/segurando_descendo8.png']
+  ]
+},
+
   gerar: function (ctx) {
     if (!this.segurando[0]) {
-    this.img.src = this.diretorio[this.lado][this.andando ? 1 : 0];}
+    this.img.src = this.diretorio[this.lado][0][this.andando ? 1 : 0];}
     else {
-    this.img.src = this.diretorio[this.lado][this.andando ? 3 : 2];}
+    this.img.src = this.diretorio[this.lado][this.segurando[2]+1][this.andando ? 1 : 0];}
     ctx.drawImage(this.img, this.x, this.y, 100, 100);
   },
   mover: function () {
@@ -150,8 +198,10 @@ var fundo = {
     this.desenharImagemProxima('imagens/3.png', 270, 161, 200, 240, personagem, "3");
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
     this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
+    this.desenharImagem('imagens/timer.png', 0, 10, 90, 50);
+     this.desenharImagem('imagens/fase_1.png', 330, 0, 250, 200);
     this.escrever(800, 80,pontos);
-    this.escrever(200, 80,timer);
+    this.escrever(100, 45,timer);
     
   },
 
@@ -233,8 +283,8 @@ var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
 var intervaloItem = 250;
-var pontos_global = 0
-var timer = 10;
+var pontos_global = 0.25
+var timer = 150;
 var timer2 = 50;
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -284,7 +334,14 @@ function loop() {
   if (teclas["ArrowUp"]) { personagem.lado = "subindo"; personagem.andando = true; }
   if (teclas["ArrowDown"]) { personagem.lado = "descendo"; personagem.andando = true; }
   if(teclas[" "] && personagem.segurando[0] == false && itens.length>0 && personagem.x>=350 && personagem.x<=410 && personagem.y>=300 && personagem.y<=320) {
-     personagem.segurando[0] = true; personagem.segurando[1]=itens[0].caixaDestino;itens[0].ativo = false; }
+
+
+     personagem.segurando[0] = true; 
+     personagem.segurando[1]=itens[0].caixaDestino;
+     personagem.segurando[2]=itens[0].id;
+     itens[0].ativo = false; 
+    
+    }
   else if(teclas[" "] && personagem.segurando[0] == true) {
     var perto = pertocaixa(personagem.x,personagem.y,personagem.segurando[1])
     if(perto[0]){
@@ -309,7 +366,7 @@ function loop() {
   requestAnimationFrame(loop);
 }
 function fim_game(pontos){
-  if(pontos>=100){
+  if(pontos>=800){
     window.open("fase2.html");
 
   }else{
