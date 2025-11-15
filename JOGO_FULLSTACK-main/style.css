@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Inter:wght@400;500;600&display=swap');
+
+/* ========= FONTES ========= */
+.jersey-10-regular {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ========= ESTILOS GERAIS ========= */
+body {
+  background-color: #e6e6e6; 
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+}
+
+
+/* ========= CABEÇALHO ========= */
+.cx1 {
+  width: 100%;
+  max-width: 1200px; 
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
+  margin-bottom: 20px;
+  position: relative; 
+  margin-top: 30px;
+}
+
+/* ========= MENU DROPDOWN ========= */
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.menu {
+  width: 60px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  position: absolute; 
+  left: 0; 
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background: linear-gradient(to bottom, #f0f0f0, #d9d9d9); 
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background: linear-gradient(to bottom, #f0f0f0, #d9d9d9); 
+  border-radius: 50%;
+}
+
+/* ========= TÍTULOS ========= */
+h1 {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 60px;
+  margin: 0;
+  color: #333;
+}
+
+/* ========= SUBTÍTULOS ========= */
+.subtitle {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.54em;
+  -webkit-text-stroke-width: 1.2px;
+  -webkit-text-stroke-color: #333;
+  color: #8cc63f; /* tom mais visível */
+  margin-top: 10px;
+}
+
+.subtitle1 {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.4em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: #d1d1d1;
+  margin-top: 10px;
+}
+
+/* ========= CONTAINER DOS CARDS ========= */
+.des {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 30px;
+  width: 100%;
+  margin-top: -15px;
+}
+
+/* ========= CARDS ========= */
+/* ========= CARDS (PADRÃO UNIFICADO) ========= */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  width: 90%;
+  max-width: 1134px;
+  min-height: 350px;
+  padding: 25px;
+  margin-top: 40px; /* garante espaço entre cards */
+
+  border-radius: 15px;
+  background: linear-gradient(to bottom, #f0f0f0, #d9d9d9);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 1; /* evita sobreposição */
+}
+
+.card:first-of-type {
+  margin-top: 20px; /* menos espaço no primeiro */
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+
+/* ========= TEXTO ========= */
+h2 {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #333;
+  font-size: 2.8em;
+  margin: 10px 0 5px 0;
+}
+
+.points {
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #333;
+  font-size: 2.1em;
+  margin: 10px 0 5px 0;
+}
+
+/* Texto e listas com legibilidade melhorada */
+p, ul, ol, li {
+  font-family: "Inter", sans-serif;
+  color: #333;
+  font-size: 1.1em;
+  font-weight: 500;
+  width: 90%;
+  text-align: center;
+  line-height: 1.5;
+  margin: 5px auto;
+}
+
+.mvt{
+  margin-top: 15px;
+}
+.mvtt{
+  margin-top: 15px;
+}
+
+.obj{
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.mvtc{
+  margin-top: 20px;
+  margin-left: -40px;
+}
+.fase p {
+  text-align: center;
+}
+
+/* Remove margem extra em listas */
+ul, ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+  /* ========= FASES ========= */
+  .fase {
+    margin-top: 30px;
+    padding: 15px;
+    background: #efefef;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    width: 90%;
+    max-width: 900px;
+  }
+
+
+  /* ========= IMAGENS DAS FASES ========= */
+  .fase img {
+    width: 100%;
+    max-width: 600px;          /* limite máximo para não ficar gigante */
+    height: auto;              /* mantém proporção original */
+    border-radius: 12px;       /* cantos arredondados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* leve sombra para destacar */
+    margin: 15px 0;            /* espaçamento em cima e embaixo */
+    object-fit: cover;         /* garante que a imagem preencha o espaço */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Efeito hover bonito */
+  .fase img:hover {
+    transform: scale(1.03);  /* dá um leve zoom quando passa o mouse */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ========= RESPONSIVIDADE DAS IMAGENS ========= */
+  @media (max-width: 768px) {
+    .fase img {
+      max-width: 90%;
+      border-radius: 10px;
+    }
+  }
+
+
+/* ========= RESPONSIVIDADE GERAL ========= */
+@media (max-width: 900px) {
+  h1 {
+    font-size: 45px;
+  }
+
+  .subtitle {
+    font-size: 2em;
+  }
+
+  .card {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .foto {
+    width: 100%;
+    height: auto;
+  }
+}
