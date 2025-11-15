@@ -1,9 +1,12 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
-/* ---------------- CANVAS DO TUTORIAL ---------------- */
+/* ---------------- CANVAS DO TUTORIAL E REFERENCIAS---------------- */
 var tutorial = document.getElementById("tutorialCanvas");
 var tctx = tutorial.getContext("2d");
+
+var referencias = document.getElementById("referencias");
+var rctx = referencias.getContext("2d");
 
 /* ---------------- IMAGENS DO TUTORIAL ---------------- */
 var imgAndando = new Image();
@@ -37,50 +40,70 @@ var frame = 0;
 function desenharTutorial() {
     tctx.clearRect(0, 0, tutorial.width, tutorial.height);
 
-    tctx.font = "18px monospace";
-    tctx.fillStyle = "black";
+    tctx.font = "21px monospace";
+    tctx.fillStyle = "white";
 
     // --- TÍTULO ---
-    tctx.fillText("TUTORIAL", 50, 30);
+    tctx.fillText("TUTORIAL", 55, 70);
 
     // --- ANDAR PARA OS LADOS ---
-    tctx.fillText("Mover:", 10, 70);
-    tctx.fillText("←  →", 60, 95);
-    tctx.drawImage(imgAndando, 60 + Math.sin(frame * 0.1) * 10, 110, 50, 50);
-    tctx.fillText("↑  ↓", 60, 180);
-    tctx.drawImage(imgAndando2, 60, Math.sin(frame * 0.1) * 5 + 190, 50, 50);
+    tctx.fillText("MOVER:", 70, 120);
+    tctx.fillText("←  →", 75, 160);
+    tctx.drawImage(imgAndando, 70 + Math.sin(frame * 0.1) * 10, 180, 60, 60);
+    tctx.fillText("↑  ↓", 78, 270);
+    tctx.drawImage(imgAndando2, 78, Math.sin(frame * 0.1) * 5 + 300, 50, 50);
 
     // --- PEGAR ITEM ---
-    tctx.fillText('Precione Espaço', 10, 290); 
-    tctx.fillText('paga pegar itens', 10, 310); 
-    tctx.drawImage(imgsegunrado, 70, 320, 50, 50);
-   
+    tctx.fillText('Precione Espaço', 15, 390); 
+    tctx.fillText('paga pegar', 45, 422); 
+    tctx.fillText('e soltar itens', 20, 455); 
+    tctx.drawImage(imgsegunrado, 75, 490, 60, 60);
 
-    // --- RELAÇÃO ITENS/CAIXAS ---
-    tctx.fillText("Caixa certa:", 10, 400);
-    tctx.fillStyle = "red";
-    tctx.fillText("Vermelha:", 10, 430);
- 
-    tctx.drawImage(imgItem1,100, 410, 30,30);
-    tctx.drawImage(imgItem2,130, 410, 30,30);
 
-    tctx.fillStyle = "blue";
-    tctx.fillText("Azul:", 10, 460);
 
-    tctx.drawImage(imgItem3,100, 440, 30,30);
-    tctx.drawImage(imgItem4,130, 440, 30,30);
+    //-- REFERENCIAS --
 
-    tctx.fillStyle = "yellow";
-    tctx.fillText("Amarelo:", 10, 490);
+    rctx.font = "21px monospace";
+    rctx.fillStyle = "white";
 
-     tctx.drawImage(imgItem5,100, 470, 30,30);
-    tctx.drawImage(imgItem6,130, 470, 30,30);
+    // --- TÍTULO ---
+    rctx.fillText("REFERENCIAS", 10, 70);
 
-    tctx.fillStyle = "green";
-    tctx.fillText("Verde:", 10, 520);
+       /* --- REFERENCIAS DE ITENS --- */
 
-    tctx.drawImage(imgItem7,100, 500, 30,30);
-    tctx.drawImage(imgItem8,130, 500, 30,30);
+    // 🔴 Vermelho
+    /* --- REFERENCIAS DE ITENS --- */
+
+    let baseY = 120;  // primeira linha das referências
+    let gap = 120;    // espaço vertical entre grupos
+
+    // 🔴 Vermelho
+    rctx.fillStyle = "red";
+    rctx.fillText("Vermelho:", 55, baseY);
+    rctx.drawImage(imgItem1, 60, baseY + 20, 40, 40);
+    rctx.drawImage(imgItem2, 120, baseY + 20, 40, 40);
+
+    // 🔵 Azul
+    rctx.fillStyle = "cyan";
+    rctx.fillText("Azul:", 55, baseY + gap);
+    rctx.drawImage(imgItem3, 60, baseY + gap + 20, 40, 40);
+    rctx.drawImage(imgItem4, 120, baseY + gap + 20, 40, 40);
+
+    // 🟡 Amarelo
+    rctx.fillStyle = "yellow";
+    rctx.fillText("Amarelo:", 55, baseY + gap * 2);
+    rctx.drawImage(imgItem5, 60, baseY + gap * 2 + 20, 40, 40);
+    rctx.drawImage(imgItem6, 120, baseY + gap * 2 + 20, 40, 40);
+
+    // 🟢 Verde
+    rctx.fillStyle = "lime";
+    rctx.fillText("Verde:", 55, baseY + gap * 3);
+    rctx.drawImage(imgItem7, 60, baseY + gap * 3 + 20, 40, 40);
+    rctx.drawImage(imgItem8, 120, baseY + gap * 3 + 20, 40, 40);
+
+    // volta cor do texto
+    rctx.fillStyle = "white";
+
 
     frame++;
 }
@@ -273,8 +296,8 @@ diretorio: {
 
 /*------- TECLAS -------*/
 var teclas = {};
-document.addEventListener("keydown", function (e) { teclas[e.key] = true; });
-document.addEventListener("keyup", function (e) { teclas[e.key] = false; });
+document.addEventListener("keydown", function (e) { teclas[e.key] = true;  e.preventDefault(); });
+document.addEventListener("keyup", function (e) { teclas[e.key] = false;  e.preventDefault();});
 
 /*------- FUNDO -------*/
 var fundo = {
