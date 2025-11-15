@@ -1,8 +1,6 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
-
-
 /* ---------------- CANVAS DO TUTORIAL E REFERENCIAS---------------- */
 var tutorial = document.getElementById("tutorialCanvas");
 var tctx = tutorial.getContext("2d");
@@ -73,7 +71,6 @@ function desenharTutorial() {
 
        /* --- REFERENCIAS DE ITENS --- */
 
-
     /* --- REFERENCIAS DE ITENS --- */
 
     let baseY = 120;  // primeira linha das referências
@@ -84,7 +81,7 @@ function desenharTutorial() {
     rctx.drawImage(imgItem1, 55, baseY + 20, 52, 52);
     rctx.drawImage(imgItem2, 110, baseY + 20, 52, 52);
 
-  rctx.fillStyle = "cyan";
+    rctx.fillStyle = "cyan";
     rctx.fillText("AZUL", 83 , baseY + gap);
     rctx.drawImage(imgItem3, 55, baseY + gap + 20, 52, 52);
     rctx.drawImage(imgItem4, 110, baseY + gap + 20, 52, 52);
@@ -107,7 +104,6 @@ function desenharTutorial() {
     frame++;
 }
 
-
 var botao = { x: 350, y: 250, w: 200, h: 80, click:false };
 
 // Desenha a tela de início
@@ -127,10 +123,6 @@ function desenharMenu() {
 }
 
 desenharMenu();
-
-
-
-
 
 
 /*------- ESTEIRA -------*/
@@ -158,8 +150,8 @@ function Item(x, y, imagem,id) {
   item.y = y;
   item.imagem = new Image();
   item.imagem.src = imagem;
-  item.velocidadeX = 0.5;
-  item.velocidadeY = -0.27;
+  item.velocidadeX = 1;
+  item.velocidadeY = -0.55;
   item.ativo = true;
   item.caixaDestino = null;
 
@@ -169,7 +161,7 @@ function Item(x, y, imagem,id) {
     item.y += item.velocidadeY;
     if (item.x > 650) {
       item.ativo = false;
-      ponto = -50
+      ponto = -75
     }
     return ponto;
   }
@@ -331,7 +323,7 @@ var fundo = {
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
     this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
     this.desenharImagem('imagens/timer.png', 0, 10, 90, 50);
-     this.desenharImagem('imagens/fase_1.png', 330, 0, 250, 200);
+     this.desenharImagem('imagens/fase_3.png', 330, 0, 250, 200);
     this.escrever(800, 80,pontos);
     this.escrever(100, 45,timer);
     
@@ -370,7 +362,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -100
     }
     
   }
@@ -380,7 +372,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -100
 
     }
       }
@@ -391,7 +383,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -100
     }
     }
     else if (x >= 370 && x <= 540 && y >= 220 && y <= 230) { 
@@ -400,7 +392,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-        pontos = -50
+        pontos = -100
       }
     }
     return[perto,pontos]
@@ -414,9 +406,9 @@ var i = 0;
 var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
-var intervaloItem = 250;
+var intervaloItem = 100;
 var pontos_global = 50
-var timer = 150;
+var timer = 50;
 var timer2 = 50;
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -500,10 +492,40 @@ function loop() {
   requestAnimationFrame(loop);
 }
 function fim_game(pontos){
-  if(pontos>=1500){
-    window.open("fase2.html");
+  if(pontos>=-1500){
+   
 
-  }else{
+
+    function fogo() {
+    var cores = ["red", "yellow", "orange", "white", "pink", "lightblue"];
+    for (var i = 0; i < 30; i++) {
+        var x = Math.random() * canvas.width; 
+        var y =  Math.random() * canvas.height;
+        ctx.fillStyle = cores[Math.floor(Math.random() * cores.length)];
+        ctx.beginPath();
+        ctx.arc(x, y, Math.random() * 5 + 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function animar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.beginPath()
+     ctx.font = "40px Arial";     
+    ctx.fillStyle = "white"; 
+    ctx.fillText("PARABENS!!!!!!!!!!!!", 300,300)
+    ctx.fillText("Parabens por completar o jogo", 170, 400)
+    ctx.closePath()
+    fogo();
+    requestAnimationFrame(animar);
+}
+
+animar();
+
+
+  }
+  else{
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.beginPath()
      ctx.font = "20px Arial";     

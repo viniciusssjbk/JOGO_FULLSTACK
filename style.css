@@ -101,7 +101,7 @@ h1 {
   -webkit-text-stroke-width: 1.2px;
   -webkit-text-stroke-color: #333;
   color: #8cc63f; /* tom mais visível */
-  margin-top: -10px;
+  margin-top: 10px;
 }
 
 .subtitle1 {
@@ -122,7 +122,7 @@ h1 {
   align-items: center !important;
   gap: 30px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: -15px;
 }
 
 /* ========= CARDS ========= */
@@ -135,7 +135,7 @@ h1 {
 
   width: 90%;
   max-width: 1134px;
-  min-height: 400px;
+  min-height: 350px;
   padding: 25px;
   margin-top: 40px; /* garante espaço entre cards */
 
@@ -183,11 +183,30 @@ p, ul, ol, li {
   font-size: 1.1em;
   font-weight: 500;
   width: 90%;
-  text-align: justify;
+  text-align: center;
   line-height: 1.5;
   margin: 5px auto;
 }
 
+.mvt{
+  margin-top: 15px;
+}
+.mvtt{
+  margin-top: 15px;
+}
+
+.obj{
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.mvtc{
+  margin-top: 20px;
+  margin-left: -40px;
+}
 .fase p {
   text-align: center;
 }

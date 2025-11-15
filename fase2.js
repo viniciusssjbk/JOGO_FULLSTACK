@@ -1,8 +1,6 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 
-
-
 /* ---------------- CANVAS DO TUTORIAL E REFERENCIAS---------------- */
 var tutorial = document.getElementById("tutorialCanvas");
 var tctx = tutorial.getContext("2d");
@@ -73,7 +71,6 @@ function desenharTutorial() {
 
        /* --- REFERENCIAS DE ITENS --- */
 
-
     /* --- REFERENCIAS DE ITENS --- */
 
     let baseY = 120;  // primeira linha das referências
@@ -84,7 +81,7 @@ function desenharTutorial() {
     rctx.drawImage(imgItem1, 55, baseY + 20, 52, 52);
     rctx.drawImage(imgItem2, 110, baseY + 20, 52, 52);
 
-  rctx.fillStyle = "cyan";
+    rctx.fillStyle = "cyan";
     rctx.fillText("AZUL", 83 , baseY + gap);
     rctx.drawImage(imgItem3, 55, baseY + gap + 20, 52, 52);
     rctx.drawImage(imgItem4, 110, baseY + gap + 20, 52, 52);
@@ -106,8 +103,6 @@ function desenharTutorial() {
 
     frame++;
 }
-
-
 var botao = { x: 350, y: 250, w: 200, h: 80, click:false };
 
 // Desenha a tela de início
@@ -127,8 +122,6 @@ function desenharMenu() {
 }
 
 desenharMenu();
-
-
 
 
 
@@ -331,7 +324,7 @@ var fundo = {
     this.desenharImagemProxima('imagens/2.png', 385, 130, 200, 240, personagem, "4");
     this.desenharImagem('imagens/score.png', 755, -5, 100, 80);
     this.desenharImagem('imagens/timer.png', 0, 10, 90, 50);
-     this.desenharImagem('imagens/fase_1.png', 330, 0, 250, 200);
+     this.desenharImagem('imagens/fase_2.png', 330, 0, 250, 200);
     this.escrever(800, 80,pontos);
     this.escrever(100, 45,timer);
     
@@ -370,7 +363,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -75
     }
     
   }
@@ -380,7 +373,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -75
 
     }
       }
@@ -391,7 +384,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-      pontos = -50
+      pontos = -75
     }
     }
     else if (x >= 370 && x <= 540 && y >= 220 && y <= 230) { 
@@ -400,7 +393,7 @@ function pertocaixa(x,y,item){
       pontos = 100
     }
       else{
-        pontos = -50
+        pontos = -75
       }
     }
     return[perto,pontos]
@@ -414,9 +407,9 @@ var i = 0;
 var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
-var intervaloItem = 250;
+var intervaloItem = 225;
 var pontos_global = 50
-var timer = 150;
+var timer = 100;
 var timer2 = 50;
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -501,7 +494,7 @@ function loop() {
 }
 function fim_game(pontos){
   if(pontos>=1500){
-    window.open("fase2.html");
+    window.open("fase3.html");
 
   }else{
     ctx.clearRect(0,0,canvas.width,canvas.height);
