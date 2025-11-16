@@ -407,7 +407,7 @@ var i = 0;
 var tempoTroca = 0;
 var intervaloTroca = 30;
 var tempoItem = 0;
-var intervaloItem = 225;
+var intervaloItem = 290;
 var pontos_global = 50
 var timer = 100;
 var timer2 = 50;
@@ -493,7 +493,7 @@ function loop() {
   requestAnimationFrame(loop);
 }
 function fim_game(pontos){
-  if(pontos>=1500){
+  if(pontos>=1200){
     window.open("fase3.html");
 
   }else{

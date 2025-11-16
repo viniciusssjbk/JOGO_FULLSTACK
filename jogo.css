@@ -11,7 +11,6 @@ body {
     background-image: url('imagens/fundo2 (3).png');
     background-size: cover;
     background-attachment: fixed;
-    overflow: none; 
     display: flex;
     justify-content: center;
     margin: 0;
@@ -119,7 +118,6 @@ body {
     align-items: center;
     gap: 30px;
     margin-top: -20px;
-    flex-wrap: wrap; /* 🔥 permite quebrar para outra linha quando ficar apertado */
 }
 
 
